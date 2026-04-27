@@ -37,23 +37,22 @@ const FAQ = () => {
 
   return (
     <section
-    id="faq"
-      className="py-24 bg-[#F6F5F4]"
+      id="faq"
+      className="py-24 bg-[#F6F5F4] overflow-x-hidden"
       style={{
         backgroundImage: "url('/About.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",
-        // marginTop: "100px",
       }}
     >
-      <div className="max-w-[1260px] mx-auto px-6">
+      <div className="max-w-[1260px] mx-auto px-4 sm:px-6">
         <div
-            className="flex w-fit mx-auto items-center justify-center px-5 py-2 rounded-[12px] bg-[#E6391F] text-white text-xs tracking-widest uppercase mb-10"
-            style={{ fontFamily: "Poppins, sans-serif" }}
-          >
-            FAQ
-          </div>
+          className="flex w-fit mx-auto items-center justify-center px-5 py-2 rounded-[12px] bg-[#E6391F] text-white text-xs tracking-widest uppercase mb-10"
+          style={{ fontFamily: "Poppins, sans-serif" }}
+        >
+          FAQ
+        </div>
 
         <h2
           className="text-center mb-16"
@@ -81,18 +80,17 @@ const FAQ = () => {
                 className="w-full rounded-[40px] border cursor-pointer overflow-hidden transition-all duration-300 ease-in-out"
                 style={{
                   minHeight: isOpen ? "182px" : "84px",
-                  minWidth: "800px",
                   background: "#F8F7F5",
                   borderColor: "#E7DED6",
                   boxShadow: "0 0 0 1px rgba(231, 222, 214, 0.35) inset",
                 }}
               >
-                <div className="px-14 py-8 h-full flex flex-col justify-start">
-                  <div className="flex items-center gap-8">
+                <div className="px-6 sm:px-10 md:px-14 py-6 sm:py-8 h-full flex flex-col justify-start">
+                  <div className="flex items-center gap-4 sm:gap-6 md:gap-8">
                     <img
                       src={isOpen ? "/Leaf_Down.svg" : "/Leaf_Up.svg"}
                       alt=""
-                      className="w-9 h-9 flex-shrink-0"
+                      className="w-7 h-7 sm:w-9 sm:h-9 flex-shrink-0"
                     />
 
                     <p
@@ -111,11 +109,11 @@ const FAQ = () => {
 
                   <div
                     className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                      isOpen ? "max-h-[120px] opacity-100 mt-8" : "max-h-0 opacity-0 mt-0"
+                      isOpen ? "max-h-[220px] opacity-100 mt-6 sm:mt-8" : "max-h-0 opacity-0 mt-0"
                     }`}
                   >
                     <p
-                      className="pl-[60px] pr-8"
+                      className="pl-0 sm:pl-[60px] pr-0 sm:pr-8"
                       style={{
                         color: "#595857",
                         fontFamily: "Inter, sans-serif",
@@ -123,7 +121,7 @@ const FAQ = () => {
                         fontStyle: "normal",
                         fontWeight: 400,
                         lineHeight: "34px",
-                        marginLeft: "-50px",
+                        marginLeft: window.innerWidth >= 640 ? "-50px" : "0px",
                       }}
                     >
                       {item.answer}

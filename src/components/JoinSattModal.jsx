@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const ContactCallModal = ({ isOpen, onClose, onSubmit }) => {
+const JoinSattModal = ({ isOpen, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -85,7 +85,7 @@ const ContactCallModal = ({ isOpen, onClose, onSubmit }) => {
               letterSpacing: "-1.04px",
             }}
           >
-            Book a 15-Minute Call
+            Join the SATT Circle
           </h2>
 
           <p
@@ -98,9 +98,9 @@ const ContactCallModal = ({ isOpen, onClose, onSubmit }) => {
               lineHeight: "30px",
             }}
           >
-            If you're unsure where to begin, start with a gentle conversation.
+            Before you belong to others, you belong to yourself.
             <br />
-            This is not advice or pressure, just space to understand where you
+            Share where you are - we'll begin from there.
             are.
           </p>
         </div>
@@ -185,7 +185,7 @@ const ContactCallModal = ({ isOpen, onClose, onSubmit }) => {
                 lineHeight: "18px",
               }}
             >
-              What would you like to talk about?
+              What brings you here?
             </label>
             <textarea
               name="message"
@@ -215,4 +215,4 @@ const ContactCallModal = ({ isOpen, onClose, onSubmit }) => {
   );
 };
 
-export default ContactCallModal;
+export default JoinSattModal;
