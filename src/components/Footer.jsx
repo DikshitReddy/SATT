@@ -1,12 +1,15 @@
 const Footer = () => {
   return (
     <footer className="bg-[#F6F5F4] pt-16 pb-20 overflow-hidden">
-      <div className="max-w-[1240px] mx-auto px-8">
+      <div className="max-w-[1240px] mx-auto px-6 md:px-8">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-12">
           {/* Left side */}
-          <div className="relative z-10" style={{
-            marginLeft: "-150px"
-          }}>
+          <div
+            className="relative z-10"
+            style={{
+              marginLeft: window.innerWidth >= 768 ? "-150px" : "0px",
+            }}
+          >
             <img
               src="/Satt_logo.svg"
               alt="SATT logo"
@@ -60,26 +63,24 @@ const Footer = () => {
           </div>
 
           {/* Right side faded text */}
-          <div className="relative flex-1 flex justify-end items-start">
+          <div className="relative flex-1 flex justify-start md:justify-end items-start">
             <h2
+              className="text-[90px] leading-none md:text-[160px]"
               style={{
                 color: "#EDE8E1",
                 fontFamily: "Poppins, sans-serif",
-                fontSize: "160px",
                 fontWeight: 400,
-                lineHeight: "1",
                 letterSpacing: "-7px",
               }}
             >
               SA
             </h2>
             <h2
+              className="text-[90px] leading-none md:text-[160px]"
               style={{
                 color: "#EDE8E1",
                 fontFamily: "Poppins, sans-serif",
-                fontSize: "160px",
                 fontWeight: 400,
-                lineHeight: "1",
                 letterSpacing: "-7px",
               }}
             >

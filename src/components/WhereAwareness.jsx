@@ -8,7 +8,7 @@ const WhereAwareness = () => {
 
   return (
     <section
-      className="py-20 pb-32 text-white"
+      className="py-20 pb-32 text-white bg-[#F6F5F4]"
       style={{
         backgroundImage: "url('/About.png')",
         backgroundSize: "cover",

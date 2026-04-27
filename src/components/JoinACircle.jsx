@@ -1,12 +1,34 @@
 import { useState } from "react";
 import ContactCallModal from "./ContactCallModal";
+import JoinSattModal from "./JoinSattModal";
 
 const JoinACircle = () => {
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
+
+  const handleContactSubmit = async (formData) => {
+    try {
+      await fetch("/api/contact-call", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to: "joinsatt.in@gmail.com",
+          ...formData,
+        }),
+      });
+
+      setIsCallModalOpen(false);
+      setIsJoinModalOpen(false);
+    } catch (error) {
+      console.error("Failed to send contact request:", error);
+    }
+  };
 
   return (
     <>
-      <section id="join" className="py-24 bg-[#F6F5F4]">
+      <section id="join" className="py-24 bg-[#F6F5F4] overflow-x-hidden">
         <div className="max-w-6xl mx-auto px-6 text-center relative">
           <div
             style={{
@@ -35,7 +57,7 @@ const JoinACircle = () => {
           </div>
 
           <h2
-            className="mt-8 mb-24"
+            className="mt-8 mb-14 md:mb-24"
             style={{
               color: "#0D0503",
               textAlign: "center",
@@ -53,7 +75,7 @@ const JoinACircle = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 items-end">
             {/* Reflection Circle */}
             <div
-              className="bg-white rounded-[40px] border border-[#E7E0DA] px-7 pt-10 pb-7 min-w-[360px] min-h-[420px] flex flex-col text-left items-start"
+              className="bg-white rounded-[40px] border border-[#E7E0DA] w-full min-h-[420px] flex flex-col text-left items-start"
               style={{ padding: "32px" }}
             >
               <h3
@@ -99,14 +121,29 @@ const JoinACircle = () => {
                 </p>
 
                 <ul className="space-y-2">
-                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6"><img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" /> Guided reflection prompts</li>
-                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6"><img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" /> 90 min small-group session</li>
-                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6"><img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" /> Safe sharing environment</li>
-                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6"><img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" /> Post-circle integration notes</li>
+                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6">
+                    <img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" />
+                    Guided reflection prompts
+                  </li>
+                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6">
+                    <img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" />
+                    90 min small-group session
+                  </li>
+                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6">
+                    <img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" />
+                    Safe sharing environment
+                  </li>
+                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6">
+                    <img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" />
+                    Post-circle integration notes
+                  </li>
                 </ul>
               </div>
 
-              <button className="mt-auto w-full rounded-[20px] bg-[#E6391F] py-3 text-white text-[15px] font-medium hover:opacity-90 transition">
+              <button
+                onClick={() => setIsJoinModalOpen(true)}
+                className="mt-auto w-full rounded-[20px] bg-[#E6391F] py-3 text-white text-[15px] font-medium hover:opacity-90 transition"
+              >
                 Join Circle
               </button>
 
@@ -124,7 +161,7 @@ const JoinACircle = () => {
 
             {/* Community Reflection */}
             <div
-              className="bg-white rounded-[40px] border border-[#E7E0DA] px-7 pt-7 pb-7 min-w-[360px] min-h-[460px] flex flex-col relative -mt-5 text-left items-start"
+              className="bg-white rounded-[40px] border border-[#E7E0DA] w-full min-h-[460px] flex flex-col relative -mt-0 md:-mt-5 text-left items-start"
               style={{ padding: "32px" }}
             >
               <div className="flex w-full justify-center mb-5">
@@ -186,21 +223,36 @@ const JoinACircle = () => {
                     lineHeight: "21px",
                   }}
                 >
-                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6"><img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" /> Conscious group dialogue</li>
-                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6"><img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" /> Tea &amp; open conversations</li>
-                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6"><img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" /> Compatibility discussions</li>
-                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6"><img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" /> Closing reflection ritual</li>
+                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6">
+                    <img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" />
+                    Conscious group dialogue
+                  </li>
+                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6">
+                    <img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" />
+                    Tea &amp; open conversations
+                  </li>
+                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6">
+                    <img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" />
+                    Compatibility discussions
+                  </li>
+                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6">
+                    <img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" />
+                    Closing reflection ritual
+                  </li>
                 </ul>
               </div>
 
-              <button className="mt-auto w-full rounded-[20px] bg-[#E6391F] py-3 text-white text-[15px] font-medium hover:opacity-90 transition">
+              <button
+                onClick={() => setIsJoinModalOpen(true)}
+                className="mt-auto w-full rounded-[20px] bg-[#E6391F] py-3 text-white text-[15px] font-medium hover:opacity-90 transition"
+              >
                 Reserve Spot
               </button>
             </div>
 
             {/* Online Reflection Circle */}
             <div
-              className="bg-white rounded-[40px] border border-[#E7E0DA] px-7 pt-10 pb-7 min-w-[360px] min-h-[420px] flex flex-col text-left items-start"
+              className="bg-white rounded-[40px] border border-[#E7E0DA] w-full min-h-[420px] flex flex-col text-left items-start"
               style={{ padding: "32px" }}
             >
               <h3
@@ -246,28 +298,44 @@ const JoinACircle = () => {
                 </p>
 
                 <ul className="space-y-2">
-                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6"><img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" /> Live online reflection circle</li>
-                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6"><img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" /> Moderated discussion space</li>
-                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6"><img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" /> Real-time Q&amp;A</li>
-                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6"><img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" /> Follow-up reflection email</li>
+                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6">
+                    <img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" />
+                    Live online reflection circle
+                  </li>
+                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6">
+                    <img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" />
+                    Moderated discussion space
+                  </li>
+                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6">
+                    <img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" />
+                    Real-time Q&amp;A
+                  </li>
+                  <li className="flex items-center gap-2 text-[#6F6A66] text-[15px] leading-6">
+                    <img src="/Leaf_grey.svg" alt="" className="h-[14px] w-[14px] flex-shrink-0" />
+                    Follow-up reflection email
+                  </li>
                 </ul>
               </div>
 
-              <button className="mt-auto w-full rounded-[20px] bg-[#E6391F] py-3 text-white text-[15px] font-medium hover:opacity-90 transition">
+              <button
+                onClick={() => setIsJoinModalOpen(true)}
+                className="mt-auto w-full rounded-[20px] bg-[#E6391F] py-3 text-white text-[15px] font-medium hover:opacity-90 transition"
+              >
                 Register
               </button>
             </div>
           </div>
 
-          <div className="mt-16 max-w-[907px] max-h-[160px] mx-auto">
-            <div className="rounded-[32px] border border-[#E7E0DA] bg-white px-8 py-8">
-              <div className="rounded-[24px] bg-[#F1EFED] px-10 py-9 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                <div className="flex items-center gap-6 text-left">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full">
+          <div className="mt-16 max-w-[907px] mx-auto w-full">
+            <div className="rounded-[32px] border border-[#E7E0DA] bg-white px-4 md:px-8 py-6 md:py-8">
+              <div className="rounded-[24px] bg-[#F1EFED] px-5 md:px-10 py-7 md:py-9 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 md:gap-6 text-left">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full flex-shrink-0">
                     <img src="/Call.svg" alt="Call" className="h-9 w-9" />
                   </div>
 
                   <p
+                    className="text-center sm:text-left"
                     style={{
                       color: "#5F5B57",
                       fontFamily: "Inter, sans-serif",
@@ -283,7 +351,7 @@ const JoinACircle = () => {
 
                 <button
                   onClick={() => setIsCallModalOpen(true)}
-                  className="shrink-0 rounded-full px-7 py-3"
+                  className="shrink-0 rounded-full px-7 py-3 w-full md:w-auto"
                   style={{
                     background: "#E7DED4",
                     color: "#E6391F",
@@ -301,7 +369,7 @@ const JoinACircle = () => {
           </div>
         </div>
 
-        <div className="w-full mt-40">
+        <div className="w-full mt-24 md:mt-40 px-6">
           <div className="relative flex items-center justify-center">
             <div
               className="absolute left-0 right-0 top-1/2 -translate-y-1/2 border-t border-[#EAE3DC]"
@@ -311,7 +379,7 @@ const JoinACircle = () => {
             ></div>
 
             <div className="relative z-10 bg-[#F6F5F4] px-6">
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-4 md:gap-6">
                 <img src="/Leaf_Icon_2.svg" alt="" style={{ width: "31px", height: "31px", flexShrink: 0 }} />
                 <img src="/Leaf_Icon_2.svg" alt="" style={{ width: "45px", height: "45px", flexShrink: 0 }} />
                 <img src="/Leaf_Icon_2.svg" alt="" style={{ width: "23px", height: "23px", flexShrink: 0 }} />
@@ -324,6 +392,12 @@ const JoinACircle = () => {
       <ContactCallModal
         isOpen={isCallModalOpen}
         onClose={() => setIsCallModalOpen(false)}
+        onSubmit={handleContactSubmit}
+      />
+      <JoinSattModal
+        isOpen={isJoinModalOpen}
+        onClose={() => setIsJoinModalOpen(false)}
+        onSubmit={handleContactSubmit}
       />
     </>
   );
