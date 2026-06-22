@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ContactCallModal from "./ContactCallModal";
 
 const FAQ = () => {
   const faqs = [
@@ -30,6 +31,7 @@ const FAQ = () => {
   ];
 
   const [openIndex, setOpenIndex] = useState(0);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   const handleToggle = (index) => {
     setOpenIndex((prev) => (prev === index ? null : index));
@@ -69,7 +71,7 @@ const FAQ = () => {
           Questions You Might Have
         </h2>
 
-        <div className="space-y-6">
+        <div className="max-w-[900px] mx-auto space-y-6">
           {faqs.map((item, index) => {
             const isOpen = openIndex === index;
 
@@ -131,6 +133,45 @@ const FAQ = () => {
               </div>
             );
           })}
+
+          <div className="text-center pt-20 md:pt-24 lg:pt-28">
+          <p
+            style={{
+              color: "#9D9A98",
+              fontFamily: "Inter, sans-serif",
+              fontSize: "20px",
+              fontWeight: 400,
+              lineHeight: "32px",
+            }}
+          >
+            Still wondering something?
+          </p>
+
+          <p
+            style={{
+              color: "#9D9A98",
+              fontFamily: "Inter, sans-serif",
+              fontSize: "20px",
+              fontWeight: 400,
+              lineHeight: "32px",
+            }}
+          >
+            Just{" "}
+            <button
+              type="button"
+              onClick={() => setIsContactOpen(true)}
+              className="text-[#FFFFFF] underline-offset-4 hover:underline"
+            >
+              message us
+            </button>{" "}
+            - we’re happy to help!
+          </p>
+        </div>
+
+        <ContactCallModal
+          isOpen={isContactOpen}
+          onClose={() => setIsContactOpen(false)}
+        />
         </div>
       </div>
     </section>

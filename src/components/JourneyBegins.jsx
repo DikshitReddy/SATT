@@ -1,4 +1,37 @@
+import { useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useMotionValue,
+  useMotionValueEvent,
+} from "framer-motion";
+
 const JourneyBegins = () => {
+  const cardsRef = useRef(null);
+
+  const sideCardYRaw = useMotionValue(56);
+
+  const sideCardY = useSpring(sideCardYRaw, {
+    stiffness: 120,
+    damping: 18,
+    mass: 0.4,
+  });
+
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious();
+
+    if (latest > previous) {
+      // Scroll down -> side cards move upward
+      sideCardYRaw.set(8);
+    } else {
+      // Scroll up -> side cards move downward
+      sideCardYRaw.set(56);
+    }
+  });
+
   return (
     <section id="journey" className="py-20 bg-[#F6F5F4] overflow-x-hidden">
       <div className="max-w-6xl mx-auto px-6">
@@ -91,8 +124,11 @@ const JourneyBegins = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white rounded-3xl p-8 md:p-10 hover:shadow-xl transition">
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div
+            className="bg-white rounded-[40px] p-8 md:p-10 hover:shadow-xl transition"
+            style={{ y: sideCardY }}
+          >
             <div className="mb-6">
               <img
                 src="/Leaf_Icon_2.svg"
@@ -100,6 +136,7 @@ const JourneyBegins = () => {
                 className="h-[49px] w-[49px]"
               />
             </div>
+
             <h3
               className="font-semibold text-2xl mb-4"
               style={{
@@ -114,6 +151,7 @@ const JourneyBegins = () => {
             >
               Growth Circles
             </h3>
+
             <p
               className="text-gray-600"
               style={{
@@ -127,9 +165,9 @@ const JourneyBegins = () => {
             >
               Structured peer interactions that help you reflect, share, and grow through meaningful conversations.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="bg-white rounded-3xl p-8 md:p-10 hover:shadow-xl transition">
+          <div className="bg-white rounded-[40px] p-8 md:p-10 hover:shadow-xl transition">
             <div className="mb-6">
               <img
                 src="/Begin_2.svg"
@@ -137,6 +175,7 @@ const JourneyBegins = () => {
                 className="h-[49px] w-[49px]"
               />
             </div>
+
             <h3
               className="font-semibold text-2xl mb-4"
               style={{
@@ -151,6 +190,7 @@ const JourneyBegins = () => {
             >
               Tiny Tables
             </h3>
+
             <p
               className="text-gray-600"
               style={{
@@ -166,7 +206,10 @@ const JourneyBegins = () => {
             </p>
           </div>
 
-          <div className="bg-white rounded-3xl p-8 md:p-10 hover:shadow-xl transition">
+          <motion.div
+            className="bg-white rounded-[40px] p-8 md:p-10 hover:shadow-xl transition"
+            style={{ y: sideCardY }}
+          >
             <div className="mb-6">
               <img
                 src="/Begin_3.svg"
@@ -174,6 +217,7 @@ const JourneyBegins = () => {
                 className="h-[49px] w-[49px]"
               />
             </div>
+
             <h3
               className="font-semibold text-2xl mb-4"
               style={{
@@ -188,6 +232,7 @@ const JourneyBegins = () => {
             >
               Life Map
             </h3>
+
             <p
               className="text-gray-600"
               style={{
@@ -201,7 +246,7 @@ const JourneyBegins = () => {
             >
               A private reflection tool to help you understand where you are and what truly matters.
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
 
@@ -230,7 +275,6 @@ const JourneyBegins = () => {
       </h2>
 
       <div className="mt-10 flex flex-col items-center gap-4 px-4">
-        {/* Desktop exact layout */}
         <div className="hidden md:flex gap-4 justify-center">
           {[
             "You are single and tired of being questioned.",
@@ -262,7 +306,6 @@ const JourneyBegins = () => {
           ))}
         </div>
 
-        {/* Mobile only adaptive layout */}
         <div className="flex md:hidden flex-wrap justify-center gap-4 max-w-full">
           {[
             "You are single and tired of being questioned.",
