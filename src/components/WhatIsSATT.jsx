@@ -19,12 +19,20 @@ const WhatIsSATT = () => {
 
     handleResize();
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const initialCardWidth = Math.min(size.width * 0.72, 1180);
-  const initialCardHeight = 430;
+  const isMobile = size.width < 768;
+
+  const initialCardWidth = isMobile
+    ? size.width * 0.94
+    : Math.min(size.width * 0.72, 1180);
+
+  const initialCardHeight = isMobile
+    ? Math.min(size.height * 0.72, 620)
+    : 430;
+
+  const initialRadius = isMobile ? 70 : 170;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -46,7 +54,7 @@ const WhatIsSATT = () => {
   const cardRadius = useTransform(
     scrollYProgress,
     [0, 0.25, 1],
-    [170, 170, 0]
+    [initialRadius, initialRadius, 0]
   );
 
   const imageScale = useTransform(
@@ -55,24 +63,14 @@ const WhatIsSATT = () => {
     [1.08, 1.08, 1]
   );
 
-  const contentOpacity = useTransform(
-    scrollYProgress,
-    [0.9, 1],
-    [0, 1]
-  );
-
-  const contentY = useTransform(
-    scrollYProgress,
-    [0.9, 1],
-    [28, 0]
-  );
+  const contentOpacity = useTransform(scrollYProgress, [0.86, 1], [0, 1]);
 
   return (
     <section
       ref={sectionRef}
-      className="relative bg-[#F6F5F4] min-h-screen pt-[72px] pb-24 overflow-hidden"
+      className="relative bg-[#F6F5F4] min-h-[100svh] pt-[44px] md:pt-[72px] pb-16 md:pb-24 overflow-hidden"
     >
-      <div className="min-h-screen flex items-start justify-center overflow-hidden">
+      <div className="min-h-[100svh] flex items-start justify-center overflow-hidden">
         <motion.div
           className="relative overflow-hidden"
           style={{
@@ -84,49 +82,57 @@ const WhatIsSATT = () => {
           <motion.img
             src="/Small.png"
             alt="SATT"
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{
-              scale: imageScale,
-            }}
+            className="absolute inset-0 w-full h-full object-cover object-center"
+            style={{ scale: imageScale }}
           />
 
           <motion.div
             className="
               absolute
               z-10
-              left-1/2 md:left-[8%]
-              top-[38%] md:top-[40%] lg:top-[42%]
-              w-[calc(100%-32px)]
-              max-w-[540px]
-              -translate-x-1/2 md:translate-x-0
+
+              left-5
+              right-5
+              top-[50%]
+              w-auto
+              max-w-none
               -translate-y-1/2
-              p-6 sm:p-8
+
+              md:left-[8%]
+              md:right-auto
+              md:w-[calc(100%-64px)]
+              md:max-w-[540px]
+
+              p-5
+              sm:p-6
+              md:p-8
               text-white
+              overflow-y-auto
             "
             style={{
               opacity: contentOpacity,
-              y: contentY,
-              borderRadius: "32px",
-              background: "rgba(0, 0, 0, 0.40)",
+              maxHeight: isMobile ? "calc(100svh - 150px)" : "none",
+              borderRadius: isMobile ? "24px" : "32px",
+              background: "rgba(0, 0, 0, 0.42)",
               backdropFilter: "blur(2.5px)",
               WebkitBackdropFilter: "blur(2.5px)",
             }}
           >
-            <div className="space-y-5">
+            <div className="space-y-3 md:space-y-5">
               <img
                 src="/Leaf_Icon.svg"
                 alt="Leaf icon"
-                className="h-[49px] w-[49px]"
+                className="h-[36px] w-[36px] md:h-[49px] md:w-[49px]"
               />
 
               <h2
                 style={{
                   color: "#FFF",
                   fontFamily: "Marcellus, serif",
-                  fontSize: "36px",
+                  fontSize: isMobile ? "30px" : "36px",
                   fontStyle: "normal",
                   fontWeight: 400,
-                  lineHeight: "43.2px",
+                  lineHeight: "1.18",
                   letterSpacing: "-0.1px",
                 }}
               >
@@ -134,14 +140,14 @@ const WhatIsSATT = () => {
               </h2>
 
               <div
-                className="space-y-4"
+                className="space-y-3 md:space-y-4"
                 style={{
                   color: "#F6F5F4",
                   fontFamily: "Inter, sans-serif",
-                  fontSize: "19px",
+                  fontSize: isMobile ? "14px" : "19px",
                   fontStyle: "normal",
                   fontWeight: 400,
-                  lineHeight: "26.6px",
+                  lineHeight: isMobile ? "20px" : "26.6px",
                   letterSpacing: "-0.19px",
                 }}
               >

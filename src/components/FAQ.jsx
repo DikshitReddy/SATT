@@ -79,7 +79,7 @@ const FAQ = () => {
               <div
                 key={index}
                 onClick={() => handleToggle(index)}
-                className="w-full rounded-[40px] border cursor-pointer overflow-hidden transition-all duration-300 ease-in-out"
+                className="w-full rounded-[40px] border cursor-pointer overflow-hidden transition-all duration-500 ease-in-out"
                 style={{
                   minHeight: isOpen ? "182px" : "84px",
                   background: "#F8F7F5",
@@ -90,9 +90,11 @@ const FAQ = () => {
                 <div className="px-6 sm:px-10 md:px-14 py-6 sm:py-8 h-full flex flex-col justify-start">
                   <div className="flex items-center gap-4 sm:gap-6 md:gap-8">
                     <img
-                      src={isOpen ? "/Leaf_Down.svg" : "/Leaf_Up.svg"}
+                      src="/Leaf_Up.svg"
                       alt=""
-                      className="w-7 h-7 sm:w-9 sm:h-9 flex-shrink-0"
+                      className={`w-7 h-7 sm:w-9 sm:h-9 flex-shrink-0 transition-transform duration-500 ease-in-out ${
+                        isOpen ? "-rotate-[270deg]" : "rotate-0"
+                      }`}
                     />
 
                     <p
@@ -110,12 +112,14 @@ const FAQ = () => {
                   </div>
 
                   <div
-                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                      isOpen ? "max-h-[220px] opacity-100 mt-6 sm:mt-8" : "max-h-0 opacity-0 mt-0"
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                      isOpen
+                        ? "max-h-[240px] opacity-100 mt-6 sm:mt-8"
+                        : "max-h-0 opacity-0 mt-0"
                     }`}
                   >
                     <p
-                      className="pl-0 sm:pl-[60px] pr-0 sm:pr-8"
+                      className="pl-0 sm:pl-[10px] pr-0 sm:pr-8"
                       style={{
                         color: "#595857",
                         fontFamily: "Inter, sans-serif",
@@ -123,7 +127,6 @@ const FAQ = () => {
                         fontStyle: "normal",
                         fontWeight: 400,
                         lineHeight: "34px",
-                        marginLeft: window.innerWidth >= 640 ? "-50px" : "0px",
                       }}
                     >
                       {item.answer}
@@ -135,43 +138,47 @@ const FAQ = () => {
           })}
 
           <div className="text-center pt-20 md:pt-24 lg:pt-28">
-          <p
-            style={{
-              color: "#9D9A98",
-              fontFamily: "Inter, sans-serif",
-              fontSize: "20px",
-              fontWeight: 400,
-              lineHeight: "32px",
-            }}
-          >
-            Still wondering something?
-          </p>
-
-          <p
-            style={{
-              color: "#9D9A98",
-              fontFamily: "Inter, sans-serif",
-              fontSize: "20px",
-              fontWeight: 400,
-              lineHeight: "32px",
-            }}
-          >
-            Just{" "}
-            <button
-              type="button"
-              onClick={() => setIsContactOpen(true)}
-              className="text-[#FFFFFF] underline-offset-4 hover:underline"
+            <p
+              style={{
+                color: "#9D9A98",
+                fontFamily: "Inter, sans-serif",
+                fontSize: "20px",
+                fontWeight: 400,
+                lineHeight: "32px",
+              }}
             >
-              message us
-            </button>{" "}
-            - we’re happy to help!
-          </p>
-        </div>
+              Still wondering something?
+            </p>
 
-        <ContactCallModal
-          isOpen={isContactOpen}
-          onClose={() => setIsContactOpen(false)}
-        />
+            <p
+              style={{
+                color: "#9D9A98",
+                fontFamily: "Inter, sans-serif",
+                fontSize: "20px",
+                fontWeight: 400,
+                lineHeight: "32px",
+              }}
+            >
+              Just{" "}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsContactOpen(true);
+                }}
+                className="text-[#FFFFFF] underline-offset-4 hover:underline"
+              >
+                message us
+              </button>{" "}
+              - we’re happy to help!
+            </p>
+          </div>
+
+          <ContactCallModal
+            isOpen={isContactOpen}
+            onClose={() => setIsContactOpen(false)}
+            onSubmit={() => setIsContactOpen(false)}
+          />
         </div>
       </div>
     </section>
