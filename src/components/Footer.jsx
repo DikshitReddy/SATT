@@ -1,15 +1,25 @@
 const Footer = () => {
   return (
-    <footer className="bg-[#F6F5F4] pt-16 pb-20 overflow-hidden">
-      <div className="max-w-[1240px] mx-auto px-6 md:px-8">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-12">
-          {/* Left side */}
-          <div
-            className="relative z-10"
-            style={{
-              marginLeft: window.innerWidth >= 768 ? "-150px" : "0px",
-            }}
-          >
+    <footer className="relative bg-[#F6F5F4] overflow-hidden">
+      <div className="relative max-w-[1240px] mx-auto px-6 md:px-8 py-14 md:py-20">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
+          {/* Mobile faded SATT text - top */}
+          <div className="block md:hidden pointer-events-none select-none">
+            <h2
+              className="leading-none text-[64px] sm:text-[82px] whitespace-nowrap"
+              style={{
+                color: "#EDE8E1",
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 400,
+                letterSpacing: "-0.06em",
+              }}
+            >
+              SATT
+            </h2>
+          </div>
+
+          {/* Left content */}
+          <div className="relative z-10 w-full max-w-[520px]">
             <img
               src="/Satt_logo.svg"
               alt="SATT logo"
@@ -30,13 +40,13 @@ const Footer = () => {
             </p>
 
             <p
-              className="mb-2"
+              className="mb-2 max-w-[420px]"
               style={{
                 color: "#6B6763",
                 fontFamily: "Inter, sans-serif",
                 fontSize: "16px",
                 fontWeight: 400,
-                lineHeight: "30px",
+                lineHeight: "28px",
               }}
             >
               A tribe for the aware, the waiting, the wild, the whole.
@@ -49,7 +59,7 @@ const Footer = () => {
                 fontFamily: "Inter, sans-serif",
                 fontSize: "16px",
                 fontWeight: 400,
-                lineHeight: "30px",
+                lineHeight: "28px",
               }}
             >
               © 2025 SATT. All rights reserved.
@@ -62,29 +72,18 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Right side faded text */}
-          <div className="relative flex-1 flex justify-start md:justify-end items-start">
+          {/* Desktop faded SATT text - right */}
+          <div className="hidden md:flex pointer-events-none select-none relative z-0 justify-end items-start flex-1">
             <h2
-              className="text-[90px] leading-none md:text-[160px]"
+              className="leading-none whitespace-nowrap md:text-[150px] lg:text-[170px] xl:text-[180px]"
               style={{
                 color: "#EDE8E1",
                 fontFamily: "Poppins, sans-serif",
                 fontWeight: 400,
-                letterSpacing: "-7px",
+                letterSpacing: "-0.06em",
               }}
             >
-              SA
-            </h2>
-            <h2
-              className="text-[90px] leading-none md:text-[160px]"
-              style={{
-                color: "#EDE8E1",
-                fontFamily: "Poppins, sans-serif",
-                fontWeight: 400,
-                letterSpacing: "-7px",
-              }}
-            >
-              TT
+              SATT
             </h2>
           </div>
         </div>

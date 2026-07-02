@@ -3,6 +3,9 @@ import { motion } from "framer-motion";
 
 const PathForward = () => {
   const sectionRef = useRef(null);
+  const progressRef = useRef(0);
+  const lockedRef = useRef(false);
+
   const [progress, setProgress] = useState(0);
 
   const steps = [
@@ -28,6 +31,12 @@ const PathForward = () => {
     },
   ];
 
+  const updateProgress = (nextValue) => {
+    const clamped = Math.max(0, Math.min(nextValue, 1));
+    progressRef.current = clamped;
+    setProgress(clamped);
+  };
+
   useEffect(() => {
     const handleWheel = (e) => {
       const section = sectionRef.current;
@@ -36,43 +45,64 @@ const PathForward = () => {
       const rect = section.getBoundingClientRect();
       const vh = window.innerHeight;
 
-      const sectionInFocus =
-        rect.top <= vh * 0.12 && rect.bottom >= vh * 0.7;
-
-      if (!sectionInFocus) return;
-
       const scrollingDown = e.deltaY > 0;
       const scrollingUp = e.deltaY < 0;
 
-      if (scrollingDown && progress < 1) {
+      const sectionVisible = rect.top < vh * 0.75 && rect.bottom > vh * 0.25;
+      const sectionCentered = rect.top <= 2 && rect.bottom >= vh * 0.65;
+      const approachingSection = scrollingDown && rect.top > 0 && rect.top < vh * 0.85;
+
+      if (!sectionVisible && !lockedRef.current) return;
+
+      if (approachingSection) {
         e.preventDefault();
         e.stopPropagation();
 
-        setProgress((prev) => {
-          const next = Math.min(prev + Math.abs(e.deltaY) / 1800, 1);
-          return next;
+        lockedRef.current = true;
+
+        window.scrollTo({
+          top: window.scrollY + rect.top,
+          behavior: "auto",
         });
 
         return;
       }
 
-      if (scrollingUp && progress > 0) {
+      if (!sectionCentered && !lockedRef.current) return;
+
+      const currentProgress = progressRef.current;
+
+      if (scrollingDown && currentProgress < 1) {
         e.preventDefault();
         e.stopPropagation();
 
-        setProgress((prev) => {
-          const next = Math.max(prev - Math.abs(e.deltaY) / 1800, 0);
-          return next;
-        });
+        lockedRef.current = true;
+
+        const step = Math.min(Math.abs(e.deltaY) / 2200, 0.09);
+        updateProgress(currentProgress + step);
 
         return;
       }
 
-      if (scrollingDown && progress >= 1) {
+      if (scrollingUp && currentProgress > 0) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        lockedRef.current = true;
+
+        const step = Math.min(Math.abs(e.deltaY) / 2200, 0.09);
+        updateProgress(currentProgress - step);
+
         return;
       }
 
-      if (scrollingUp && progress <= 0) {
+      if (scrollingDown && currentProgress >= 1) {
+        lockedRef.current = false;
+        return;
+      }
+
+      if (scrollingUp && currentProgress <= 0) {
+        lockedRef.current = false;
         return;
       }
     };
@@ -87,7 +117,7 @@ const PathForward = () => {
         capture: true,
       });
     };
-  }, [progress]);
+  }, []);
 
   const getCardAnimation = (index) => {
     const start = index * 0.22;
@@ -98,17 +128,18 @@ const PathForward = () => {
 
     return {
       opacity: visible,
-      y: 80 - visible * 80,
+      y: 70 - visible * 70,
+      scale: 0.96 + visible * 0.04,
     };
   };
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen bg-[#F6F5F4] overflow-hidden flex items-center"
+      className="relative min-h-[100svh] bg-[#F6F5F4] overflow-hidden flex items-center py-10 sm:py-14 md:py-20"
     >
-      <div className="w-full px-6">
-        <div className="text-center mb-14">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 sm:mb-10 md:mb-14">
           <div
             style={{
               display: "inline-flex",
@@ -136,15 +167,15 @@ const PathForward = () => {
           </div>
 
           <h2
-            className="text-4xl font-semibold text-[#1C160F] mt-6"
+            className="mt-5 sm:mt-6"
             style={{
               color: "#0D0503",
               textAlign: "center",
               fontFamily: "Marcellus, serif",
-              fontSize: "52px",
+              fontSize: "clamp(36px, 5vw, 52px)",
               fontStyle: "normal",
               fontWeight: 400,
-              lineHeight: "62.4px",
+              lineHeight: "1.2",
               letterSpacing: "-1.04px",
             }}
           >
@@ -152,41 +183,51 @@ const PathForward = () => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 max-w-[1500px] mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5 md:gap-8 max-w-[1500px] mx-auto">
           {steps.map((step, index) => {
             const card = getCardAnimation(index);
 
             return (
               <motion.div
                 key={step.num}
-                className="bg-white p-8 md:p-10 hover:shadow-lg transition group"
+                className="bg-white hover:shadow-lg transition group"
                 animate={{
                   opacity: card.opacity,
                   y: card.y,
+                  scale: card.scale,
                 }}
                 transition={{
-                  duration: 0.28,
+                  duration: 0.22,
                   ease: "easeOut",
                 }}
                 style={{
-                  borderRadius: "48px",
+                  borderRadius: "clamp(28px, 4vw, 48px)",
                   background: "#FFF",
-                  minHeight: "300px",
+                  minHeight: "clamp(190px, 25vw, 300px)",
+                  padding: "clamp(18px, 3vw, 40px)",
                 }}
               >
-                <div className="text-7xl font-bold text-[#FF6B00]/20 group-hover:text-[#FF6B00]/40 transition mb-10">
-                  {step.num}
+                <div className="text-[#FF6B00]/20 group-hover:text-[#FF6B00]/40 transition mb-5 sm:mb-7 md:mb-10">
+                  <span
+                    style={{
+                      fontSize: "clamp(48px, 7vw, 72px)",
+                      fontWeight: 700,
+                      lineHeight: 1,
+                    }}
+                  >
+                    {step.num}
+                  </span>
                 </div>
 
                 <h3
-                  className="font-semibold text-2xl mb-4 text-[#1C160F]"
+                  className="mb-3 md:mb-4"
                   style={{
                     color: "#0D0503",
                     fontFamily: "Marcellus, serif",
-                    fontSize: "28px",
+                    fontSize: "clamp(22px, 2.2vw, 28px)",
                     fontStyle: "normal",
                     fontWeight: 400,
-                    lineHeight: "39.2px",
+                    lineHeight: "1.35",
                     letterSpacing: "-0.56px",
                   }}
                 >
@@ -194,13 +235,12 @@ const PathForward = () => {
                 </h3>
 
                 <p
-                  className="text-gray-600 leading-relaxed"
                   style={{
                     color: "#66625E",
                     fontFamily: "Inter, sans-serif",
-                    fontSize: "16px",
+                    fontSize: "clamp(13px, 1.4vw, 16px)",
                     fontWeight: 400,
-                    lineHeight: "24px",
+                    lineHeight: "1.5",
                   }}
                 >
                   {step.desc}
